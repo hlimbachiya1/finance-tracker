@@ -1,16 +1,15 @@
 import './App.css'
+import TransactionForm from './features/TransactionForm';
 import Header from './shared/Header';
 
 function App() {
   return (
     <div className="container">
-      <Header>
-        <main>
-          <h1>Welcome to your personal Finance-Tracker</h1>
-          <p>Track your income, expenses, assets, and savings</p>
-        </main>
-      </Header>
-
+      <Header />
+      <main>
+        <h2>Welcome to your Finance Tracker!</h2>
+        <TransactionForm />
+      </main>
     </div>
   );
 }
