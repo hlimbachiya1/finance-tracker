@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function TransactionForm() {
+function TransactionForm({onAddTransaction}) {
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
 
@@ -12,11 +12,13 @@ function TransactionForm() {
             return;
         }
 
-        console.log ('New Transaction:', {
+        const newTransaction = {
             description: description.trim(),
             amount: parseFloat(amount),
             date: new Date().toISOString().split('T')[0]
-        });
+        };
+
+        onAddTransaction(newTransaction);
 
         setDescription('');
         setAmount('');
@@ -56,9 +58,7 @@ function TransactionForm() {
                     />
                 </div>
 
-                <button
-                    type="submit"
-                    >
+                <button type="submit">
                         Add Transaction
                 </button>
             </form>
