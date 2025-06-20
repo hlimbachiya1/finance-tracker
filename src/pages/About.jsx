@@ -50,7 +50,7 @@ function About() {
 
       <div>
         <h4>Built with:</h4>
-        <p>React • React Router • Modern JavaScript</p>
+        <p>React - React Router - Modern JavaScript</p>
         <p>Created as a learning project for personal finance management.</p>
       </div>
     </div>
