@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import './App.css'
 import TransactionForm from './features/TransactionForm';
+import TransactionList from './features/TransactionList/TransactionList';
 import Header from './shared/Header';
 
 function App() {
-  const [Transactions, setTransactions]= useState([]);
+  const [transactions, setTransactions]= useState([]);
 
   const handleAddTransaction = (newTransaction) => {
-    const TransactionWithId = {
+    const transactionWithId = {
       id: Date.now(), //right now a simple id using timestamp
       ...newTransaction
     };
 
-    setTransactions([TransactionWithId, ...Transactions]);
-    console.log('Transaction added to state:', TransactionWithId);
-    console.log('All transactions:',[TransactionWithId, ...Transactions]);
+    setTransactions([transactionWithId, ...transactions]);
+    console.log('Transaction added to state:', transactionWithId);
+    //console.log('All transactions:',[transactionWithId, ...transactions]);
   };
 
   return (
@@ -23,13 +24,11 @@ function App() {
       <main>
         <h2>Welcome to your Finance Tracker!</h2>
         <p>
-          Total Transactions: 
-            <strong>
-            {Transactions.length}
-            </strong>
+          Total Transactions: <strong>{transactions.length}</strong>
         </p>
 
         <TransactionForm onAddTransaction = {handleAddTransaction} />
+        <TransactionList transactions={transactions} />
       </main>
     </div>
   );
