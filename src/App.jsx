@@ -45,22 +45,7 @@ function App() {
           </div>
         } />
 
-        </Routes>
-
-
-        
-        {/* <h2>Welcome to your Finance Tracker!</h2>
-
-        {transactions.length > 0 && (
-          <TransactionSummary transactions={transactions} />
-        )}
-
-        {/* <p>
-          Total Transactions: <strong>{transactions.length}</strong>
-        </p> */}
-{/*}
-        <TransactionForm onAddTransaction = {handleAddTransaction} />
-        <TransactionList transactions={transactions} /> */}
+        </Routes> 
       </main>
     </div>
   );

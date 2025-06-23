@@ -4,6 +4,7 @@ function TransactionForm({onAddTransaction}) {
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('income');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -13,6 +14,8 @@ function TransactionForm({onAddTransaction}) {
             return;
         }
 
+        setIsSubmitting(true);
+
         const newTransaction = {
             description: description.trim(),
             amount: parseFloat(amount),
@@ -20,12 +23,13 @@ function TransactionForm({onAddTransaction}) {
             date: new Date().toISOString().split('T')[0]
         };
 
-        onAddTransaction(newTransaction);
-
-        setDescription('');
-        setAmount('');
-        setCategory('income');
-
+        setTimeout(() => {
+            onAddTransaction(newTransaction);
+            setDescription('');
+            setAmount('');
+            setCategory('income');
+            setIsSubmitting(false);
+        }, 500);
         alert('Transaction added! Check the console.');
     };
 
@@ -47,8 +51,6 @@ function TransactionForm({onAddTransaction}) {
                 </select>
                 </div>
 
-
-
                 <div>
                     <label htmlFor="description">
                         Description:
@@ -59,6 +61,7 @@ function TransactionForm({onAddTransaction}) {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="What was this for?"
+                        disabled ={isSubmitting}
                     />    
                 </div>
 
@@ -73,12 +76,18 @@ function TransactionForm({onAddTransaction}) {
                         min="0"
                         value={amount}
                         onChange={(e) => setAmount(e.target.value)}
-                        placeholder="0.00"                        
+                        placeholder="0.00"   
+                        disabled = {isSubmitting}                     
                     />
                 </div>
 
-                <button type="submit">
-                        Add Transaction
+                <button type="submit" 
+                        disabled={isSubmitting} 
+                        style= {{
+                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                        }}
+                >
+                        {isSubmitting ? 'Adding...' : 'Add Transaction'}
                 </button>
             </form>
         </div>
