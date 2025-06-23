@@ -13,7 +13,7 @@ function Dashboard({ transactions }) {
           <div>
             <h3> Recent Transactions</h3>
             <TransactionList transactions={transactions.slice(0, 5)} />
-            {transactions.lengt > 5 && (
+            {transactions.length > 5 && (
               <p>Showing your 5 most recent transactions</p>
             )}
           </div>

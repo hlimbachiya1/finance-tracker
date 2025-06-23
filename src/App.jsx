@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import './App.css'
+import {Routes, Route, useNavigate} from 'react-router-dom';
+
 import Header from './shared/Header';
+
+import Dashboard from './pages/Dashboard.jsx';
+import AddTransaction from './pages/AddTransaction.jsx';
+import About from './pages/About.jsx';
+
 import TransactionForm from './features/TransactionForm';
 import TransactionList from './features/TransactionList/TransactionList';
 import TransactionSummary from './features/TransactionSummary'; 
@@ -8,6 +15,7 @@ import TransactionSummary from './features/TransactionSummary';
 
 function App() {
   const [transactions, setTransactions]= useState([]);
+  const navigate = useNavigate();
 
   const handleAddTransaction = (newTransaction) => {
     const transactionWithId = {
@@ -18,13 +26,30 @@ function App() {
     setTransactions([transactionWithId, ...transactions]);
     console.log('Transaction added to state:', transactionWithId);
     //console.log('All transactions:',[transactionWithId, ...transactions]);
+
+    navigate('/'); //navigates back to dashboard after adding transaction
   };
 
   return (
     <div className="container">
       <Header />
       <main>
-        <h2>Welcome to your Finance Tracker!</h2>
+       <Routes> 
+        <Route path="/" element={<Dashboard transactions={transactions}/>} />
+        <Route path="/add" element={<AddTransaction onAddTransaction={handleAddTransaction} />} />
+        <Route path="/about" element={<About />} />
+        <Route path ="*" element= {
+          <div>
+          <h2>404 Page not Found</h2>
+          <button onClick={()=> navigate('/')}> Go to Dashboard</button>
+          </div>
+        } />
+
+        </Routes>
+
+
+        
+        {/* <h2>Welcome to your Finance Tracker!</h2>
 
         {transactions.length > 0 && (
           <TransactionSummary transactions={transactions} />
@@ -33,9 +58,9 @@ function App() {
         {/* <p>
           Total Transactions: <strong>{transactions.length}</strong>
         </p> */}
-
+{/*}
         <TransactionForm onAddTransaction = {handleAddTransaction} />
-        <TransactionList transactions={transactions} />
+        <TransactionList transactions={transactions} /> */}
       </main>
     </div>
   );
