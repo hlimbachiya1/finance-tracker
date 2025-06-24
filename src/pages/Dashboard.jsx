@@ -13,11 +13,11 @@ function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
           <div style={{ marginTop: "30ps" }}>
             <h3> Recent Transactions</h3>
             <TransactionList
-              transactions={transactions.slice(0, 10)}
+              transactions={transactions.slice(0, 5)}
               onDeleteTransaction={onDeleteTransaction}
               onEditTransaction={onEditTransaction}
             />
-            {transactions.length > 10 && (
+            {transactions.length > 5 && (
               <p
                 style={{
                   textAlign: "center",
@@ -25,7 +25,7 @@ function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
                   color: "#666",
                 }}
               >
-                Showing your 10 most recent transactions
+                Showing your 5 most recent transactions
               </p>
             )}
           </div>
