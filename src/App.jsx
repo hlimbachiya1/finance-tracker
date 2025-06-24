@@ -30,16 +30,24 @@ function App() {
     navigate('/'); //navigates back to dashboard after adding transaction
   };
 
+  const handleDeleteTransaction = (transactionId) => {
+    setTransactions(transactions.filter(transaction => transaction.id !== transactionId));
+    console.log('Transaction deleted:', transactionId);
+  };
+
   return (
     <div className="container">
       <Header />
+
       <main>
        <Routes> 
-        <Route path="/" element={<Dashboard transactions={transactions}/>} />
+        <Route path="/" element={<Dashboard 
+                                  transactions={transactions}
+                                  onDeleteTransaction={handleDeleteTransaction}/>} />
         <Route path="/add" element={<AddTransaction onAddTransaction={handleAddTransaction} />} />
         <Route path="/about" element={<About />} />
         <Route path ="*" element= {
-          <div>
+          <div style={{textAlign:'center', padding:'50px'}}>
           <h2>404 Page not Found</h2>
           <button onClick={()=> navigate('/')}> Go to Dashboard</button>
           </div>
