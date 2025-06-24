@@ -1,7 +1,7 @@
 import TransactionSummary from "../features/TransactionSummary";
 import TransactionList from "../features/TransactionList/TransactionList";
 
-function Dashboard({ transactions, onDeleteTransaction }) {
+function Dashboard({ transactions, onDeleteTransaction, onEditTransaction }) {
   return (
     <div>
       <h2>Dashboard</h2>
@@ -15,6 +15,7 @@ function Dashboard({ transactions, onDeleteTransaction }) {
             <TransactionList
               transactions={transactions.slice(0, 10)}
               onDeleteTransaction={onDeleteTransaction}
+              onEditTransaction={onEditTransaction}
             />
             {transactions.length > 10 && (
               <p

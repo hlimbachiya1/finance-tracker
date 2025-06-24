@@ -1,4 +1,13 @@
-function TransactionList({ transactions, onDeleteTransaction }) {
+import { useState } from "react";
+
+function TransactionList({
+  transactions,
+  onDeleteTransaction,
+  onEditTransaction,
+}) {
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({});
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -24,6 +33,40 @@ function TransactionList({ transactions, onDeleteTransaction }) {
     if (confirmDelete) {
       onDeleteTransaction(transaction.id);
     }
+  };
+
+  const startEdit = (transaction) => {
+    setEditingId(transaction.id);
+    setEditForm({
+      description: transaction.description,
+      amount: transaction.amount.toString(),
+      category: transaction.category,
+      date: transaction.date,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditForm({});
+  };
+
+  const saveEdit = (transaction) => {
+    if (!editForm.description.trim() || !editForm.amount) {
+      alert("Please fill in both description and amount!");
+      return;
+    }
+
+    const updatedTransaction = {
+      ...transaction,
+      description: editForm.description.trim(),
+      amount: parseFloat(editForm.amount),
+      category: editForm.category,
+      date: editForm.date,
+    };
+
+    onEditTransaction(updatedTransaction);
+    setEditingId(null);
+    setEditForm({});
   };
 
   if (transactions.length === 0) {
@@ -56,57 +99,158 @@ function TransactionList({ transactions, onDeleteTransaction }) {
               display: "flex",
               padding: "20px",
               justifyContent: "space-between",
-              backgroundColor: "#fff",
+              backgroundColor:
+                editingId === transaction.id ? "#fff3cd" : "#fff",
               border: "1px solid #ddd",
               borderRadius: "10px",
+              marginBottom: "15px",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                flex: 1,
-              }}
-            >
+            {editingId === transaction.id ? (
               <div>
-                <strong
-                  style={{
-                    fontSize: "18px",
-                    display: "block",
-                  }}
-                >
-                  {transaction.description}
-                </strong>
+                <div style={{ marginBottom: "15px" }}>
+                  <label style={{ display: "block", marginBottom: "5px" }}>
+                    category:
+                  </label>
+                  <select
+                    value={editForm.category}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, category: e.target.value })
+                    }
+                    style={{ fontSize: "12px", padding: "8px", width: "100%" }}
+                  >
+                    <option value="income">Income</option>
+                    <option value="expenditures">Expenditures</option>
+                    <option value="assets">Assets</option>
+                    <option value="savings">Savings</option>
+                  </select>
+                </div>
 
-                <div
-                  style={{
-                    color: "#666",
-                    fontSize: "14px",
-                    marginTop: "5px",
-                  }}
-                >
-                  {transaction.category.charAt(0).toUpperCase() +
-                    transaction.category.slice(1)}
-                  <br />
-                  {transaction.date}
+                <div style={{ marginBottom: "15px" }}>
+                  <label style={{ display: "block", marginBottom: "5px" }}>
+                    Description:
+                  </label>
+                  <input
+                    type="text"
+                    value={editForm.description}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, description: e.target.value })
+                    }
+                    style={{ fontSize: "14px", padding: "8px", width: "100%" }}
+                  />
+                </div>
+
+                <div>
+                  <div>
+                    <label style={{ display: "block", marginBottom: "5px" }}>
+                      Amount ($):
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={editForm.amount}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, amount: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: "block", marginBottom: "5px" }}>
+                      Date:
+                    </label>
+                    <input
+                      type="date"
+                      value={editForm.date}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, date: e.target.value })
+                      }
+                      style={{
+                        fontSize: "14px",
+                        padding: "8px",
+                        width: "100%",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    onClick={() => saveEdit(transaction)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Save
+                  </button>
+                  <button onClick={cancelEdit}>Cancel</button>
                 </div>
               </div>
-            </div>
+            ) : (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flex: 1,
+                  }}
+                >
+                  <div>
+                    <strong
+                      style={{
+                        fontSize: "18px",
+                        display: "block",
+                      }}
+                    >
+                      {transaction.description}
+                    </strong>
 
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ color: getCategoryColor(transaction.category) }}>
-                {formatCurrency(transaction.amount)}
-              </div>
+                    <div
+                      style={{
+                        color: "#666",
+                        fontSize: "14px",
+                        marginTop: "5px",
+                      }}
+                    >
+                      {transaction.category.charAt(0).toUpperCase() +
+                        transaction.category.slice(1)}
+                      <br />
+                      {transaction.date}
+                    </div>
+                  </div>
+                </div>
 
-              <button
-                onClick={() => handleDelete(transaction)}
-                style={{
-                  cursor: "pointer",
-                }}
-              >
-                Delete
-              </button>
-            </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <div
+                    style={{
+                      color: getCategoryColor(transaction.category),
+                      marginRight: "20px",
+                    }}
+                  >
+                    {formatCurrency(transaction.amount)}
+                  </div>
+
+                  <button
+                    onClick={() => startEdit(transaction)}
+                    style={{
+                      cursor: "pointer",
+                      marginRight: "20px",
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(transaction)}
+                    style={{
+                      cursor: "pointer",
+                      marginRight: "20px",
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         ))}
       </div>
