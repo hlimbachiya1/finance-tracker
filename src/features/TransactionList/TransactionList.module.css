@@ -1,0 +1,41 @@
+.transactionListContainer {
+  margin-top: 32px;
+}
+
+.title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 16px;
+  font-family: 'Inter', sans-serif;
+}
+
+.summary {
+  color: #666;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.transactionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 48px 24px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.emptyState h3 {
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.emptyState p {
+  color: #6c757d;
+  font-size: 16px;
+}

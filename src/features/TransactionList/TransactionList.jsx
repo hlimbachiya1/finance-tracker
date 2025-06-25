@@ -81,7 +81,7 @@ function TransactionList({
         }}
       >
         <h3>No transactions yet</h3>
-        <p>Add your first transaction using the form above!</p>
+        <p>Click the "Add New Transaction" button to get started!</p>
       </div>
     );
   }

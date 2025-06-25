@@ -50,11 +50,6 @@ function Header() {
         </NavLink>
       </nav>
       
-      {/* <nav style={{ marginTop: '10px' }}>
-        <button style={{ marginRight: '10px' }}>Dashboard</button>
-        <button style={{ marginRight: '10px' }}>Add Transaction</button>
-        <button>About</button>
-      </nav> */}
     </header>
   );
 }

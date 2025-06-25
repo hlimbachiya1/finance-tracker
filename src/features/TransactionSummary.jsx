@@ -1,3 +1,5 @@
+import styles from "./TransactionSummary.module.css";
+
 function TransactionSummary({ transactions }) {
   //handles list for empty transaction early on
   if (transactions.length === 0) {
@@ -34,20 +36,18 @@ function TransactionSummary({ transactions }) {
   return (
     <div>
       <h3>Financial Summary</h3>
-      {/* category totals */}
+
       <div>
         {summaryCards
             .filter(({ category }) => (totals[category] || 0) > 0)
             .map(({ category, label, color }) => (
           <div key={category}>
             <div style = {{color}}>{label}</div>
-            {/* <div>{color}</div> */}
             <div>{formatCurrency(totals[category] || 0)}</div>
           </div>
         ))}
       </div>
 
-      {/* net worth */}
       <div>
         <h4>Net Worth</h4>
         <div>{formatCurrency(netWorth)}</div>

@@ -1,20 +1,26 @@
 import { useState } from "react";
+import TextInputWithLabel from "../shared/TextInputWithLabel";
+import SelectWithLabel from "../shared/SelectWithLabel";
 
-function TransactionForm({onAddTransaction}) {
+function TransactionForm({ onAddTransaction, isSaving }) {
     const [description, setDescription] = useState('');
     const [amount, setAmount] = useState('');
     const [category, setCategory] = useState('income');
-    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const categoryOptions = [
+        { value: 'income', label: 'Income' },
+        { value: 'expenditures', label: 'Expenditures' },
+        { value: 'assets', label: 'Assets' },
+        { value: 'savings', label: 'Savings' }
+    ];
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         if (!description.trim() || !amount) {
-            alert ('Please fill in both description and amount!');
+            alert('Please fill in both description and amount!');
             return;
         }
-
-        setIsSubmitting(true);
 
         const newTransaction = {
             description: description.trim(),
@@ -23,71 +29,53 @@ function TransactionForm({onAddTransaction}) {
             date: new Date().toISOString().split('T')[0]
         };
 
-        setTimeout(() => {
-            onAddTransaction(newTransaction);
-            setDescription('');
-            setAmount('');
-            setCategory('income');
-            setIsSubmitting(false);
-        }, 500);
-        alert('Transaction added! Check the console.');
+        onAddTransaction(newTransaction);
+        
+        // Clear form after submission
+        setDescription('');
+        setAmount('');
+        setCategory('income');
     };
 
     return (
         <div>
             <h3>Add New Transaction</h3>
-            <form onSubmit = {handleSubmit}>
-                <div>
-                    <label htmlFor="category"> Category: </label>
-                <select
-                    id="category"
+            <form onSubmit={handleSubmit}>
+                <SelectWithLabel
+                    label="Category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                >
-                    <option value="income">Income</option>
-                    <option value="expenditures">Expenditures</option>
-                    <option value="assets">Assets</option>
-                    <option value="savings">Savings</option>
-                </select>
-                </div>
+                    options={categoryOptions}
+                    disabled={isSaving}
+                />
 
-                <div>
-                    <label htmlFor="description">
-                        Description:
-                    </label>
-                    <input 
-                        type="text"
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="What was this for?"
-                        disabled ={isSubmitting}
-                    />    
-                </div>
+                <TextInputWithLabel
+                    label="Description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="What was this for?"
+                    disabled={isSaving}
+                />
 
-                <div>
-                    <label htmlFor="amount" >
-                        Amount ($):
-                    </label>
-                    <input
-                        type="number"
-                        id="amount"
-                        step="0.01"
-                        min="0"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                        placeholder="0.00"   
-                        disabled = {isSubmitting}                     
-                    />
-                </div>
+                <TextInputWithLabel
+                    label="Amount ($)"
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0"
+                    disabled={isSaving}
+                />
 
                 <button type="submit" 
-                        disabled={isSubmitting} 
-                        style= {{
-                            cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                        disabled={isSaving} 
+                        style={{
+                            cursor: isSaving ? 'not-allowed' : 'pointer',
+                            opacity: isSaving ? 0.5 : 1
                         }}
                 >
-                        {isSubmitting ? 'Adding...' : 'Add Transaction'}
+                        {isSaving ? 'Saving...' : 'Add Transaction'}
                 </button>
             </form>
         </div>
