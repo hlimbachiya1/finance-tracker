@@ -70,7 +70,7 @@ Replace the placeholder values with your actual Airtable credentials. See the se
   Click **"Delete"** and confirm to remove the entry.
 
 - **View Summary**  
-  The dashboard shows total values per category and calculates net worth.**Net Worth = Income + Assets - Expenditures + Savings**
+  The dashboard shows total values per category and calculates net worth. **Net Worth = Income + Assets - Expenditures + Savings**
 
 - **Demo**  
   For more information about the App usage and features along with Demo, please watch this [Youtube Video](https://www.youtube.com/watch?v=CG51XuAOoZo)
