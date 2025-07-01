@@ -21,7 +21,7 @@ A simple, responsive web app to track income, expenditures, assets, and savings.
 ### 1. Clone and Install
 
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/hlimbachiya1/finance-tracker
 cd finance-tracker
 npm install
 ```
