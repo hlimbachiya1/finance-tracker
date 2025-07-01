@@ -54,7 +54,7 @@ Replace the placeholder values with your actual Airtable credentials. See the se
    - `data.records:read`
    - `data.records:write`
 7. Copy and save your **Access Token** securely
-8. Note: Confirm your .env.local file contains valid Airtable credentials and ensure that the base name and Table name is proper to bullet points 2-6
+8. Note: Confirm your .env.local file contains valid Airtable credentials and ensure that the base and Table configurations is proper to bullet points 2-6
 9. Restart the development server after updating environment variables
 10. If there is **"Failed to save transaction" error**, then please check that category options in Airtable match exactly (case-sensitive)
 11. Your Airtable base should now be ready to be connected to the application
